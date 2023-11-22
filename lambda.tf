@@ -22,19 +22,6 @@ data "aws_iam_policy_document" "lambda_assume_role" {
   }
 }
 
-data "aws_iam_policy_document" "lambda_sqs_policy" {
-  statement {
-    effect    = "Allow"
-    actions   = [
-      "sqs:ReceiveMessage",
-    ]
-    resources = [
-        "${aws_sqs_queue.terraform_queue.arn}:*",
-        "${aws_sqs_queue.terraform_queue.arn}",
-    ]
-  }
-}
-
 resource "aws_iam_role" "iam_for_lambda" {
   name               = "iam_for_lambda_sqs"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
